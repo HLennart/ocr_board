@@ -11,7 +11,7 @@ which is then returned to the clipboard
 3. ???
 4. profit
 
-![this is brilliant, but i like this meme](readme\2021-02-18-23-40-57.png)
+![this is brilliant, but i like this meme](readme/2021-02-18-23-40-57.png)
 
 # Requirements
 pip install -r requirements.txt  
