@@ -6,7 +6,16 @@ except ImportError:
 import pytesseract
 from PIL import ImageGrab
 import tempfile
+import os
 
+# We just expect tesseract.exe to be in the same folder as this file
+# feel free to change to your location
+TESSERACT_EXPECTED_PATH = r"tesseract.exe"
+
+# if there is no tesseract.exe you got a problem mate
+# and that is why we check for it
+if not os.path.isfile(TESSERACT_EXPECTED_PATH):
+    raise pytesseract.TesseractNotFoundError()
 
 # get our image from the clipboard
 img = ImageGrab.grabclipboard()
@@ -20,16 +29,15 @@ temp_directory = tempfile.TemporaryDirectory()
 temp_location = temp_directory.name + '/tempfile'
 # Then we save our image in that temporary folder
 img.save(temp_location,'PNG')
-# here we set our tesseract.exe path => TODO add that shit to our exe
 
-pytesseract.pytesseract.tesseract_cmd = r"tesseract.exe"
+
+pytesseract.pytesseract.tesseract_cmd = TESSERACT_EXPECTED_PATH
 # use tesseract to get the text from our image and store it    
 interpreted_text = pytesseract.image_to_string(temp_location)
 # winclip32.UNICODE_STD_TEXT is the textformat in which our text is stored back into the clipboard
 object_format_output = winclip32.UNICODE_STD_TEXT
-
+# put the text back into the clipboard in unicode format
 winclip32.set_clipboard_data(object_format_output, interpreted_text)
 
-print(interpreted_text)
 
-    
+#'tesseract.exe was not found under{TESSERACT_EXPECTED_PATH}'
